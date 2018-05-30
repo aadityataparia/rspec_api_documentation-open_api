@@ -5,5 +5,7 @@ module RspecApiDocumentation
     extend ActiveSupport::Autoload
 
     autoload :OpenApiWriter
+    autoload :OpenApiJsonWriter
+    autoload :OpenApiYamlWriter
   end
 end

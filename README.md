@@ -25,7 +25,13 @@ Or install it yourself as:
 in *spec/spec_helper.rb* Put
 ```rb
 RspecApiDocumentation.configure do |config|
-  config.format = :open_api
+  config.format = :open_api_json # for json spec
+end
+```
+or
+```rb
+RspecApiDocumentation.configure do |config|
+  config.format = :open_api_yaml # for yaml spec
 end
 ```
 
