@@ -8,8 +8,6 @@ module RspecApiDocumentation
     class OpenApiWriter < Writer
       attr_writer :types, :swagger
 
-      RspecApiDocumentation::Configuration.add_setting :open_api, default: {}
-
       def write
         File.open(configuration.docs_dir.join("open_api.json"), "w") do |f|
           f.write JSON.pretty_generate(get_hash)
@@ -243,7 +241,7 @@ module RspecApiDocumentation
       end
 
       def info
-        RspecApiDocumentation.configuration.open_api["host"] || {
+        RspecApiDocumentation.configuration.open_api["info"] || {
           "version" => "1.0.0",
           "title" => "Open API",
           "description" => "Open API",
@@ -254,7 +252,7 @@ module RspecApiDocumentation
       end
 
       def servers
-        RspecApiDocumentation.configuration.open_api["server"] || [
+        RspecApiDocumentation.configuration.open_api["servers"] || [
           {
             "url" => "http://localhost:{port}",
             "description" => "Development server",

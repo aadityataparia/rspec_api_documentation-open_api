@@ -39,7 +39,7 @@ Change default host and servers spec using
 ```
 RspecApiDocumentation.configure do |config| # These are defaults
   config.open_api = {
-    "host": {
+    "info": {
       "version" => "1.0.0",
       "title" => "Open API",
       "description" => "Open API",
