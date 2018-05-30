@@ -22,7 +22,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+in *spec/spec_helper.rb* Put
+```rb
+RspecApiDocumentation.configure do |config|
+  config.format = :open_api
+end
+```
 
 ## Development
 
