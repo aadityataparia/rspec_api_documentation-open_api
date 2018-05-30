@@ -8,6 +8,8 @@ module RspecApiDocumentation
     class OpenApiWriter < Writer
       attr_writer :types, :swagger
 
+      RspecApiDocumentation::Configuration.add_setting :open_api, default: {}
+
       def write
         File.open(configuration.docs_dir.join("open_api.json"), "w") do |f|
           f.write JSON.pretty_generate(get_hash)
