@@ -221,39 +221,8 @@ module RspecApiDocumentation
       def swagger
         @swagger ||= {
           "openapi" => "3.0.0",
-          "info" => {
-            "version" => "1.0.0",
-            "title" => "Cookpad Global Web API",
-            "description" => "Cookpad's global web API",
-            "contact" => {
-              "name" => "Aaditya Taparia",
-              "email" => "aaditya-taparia@gmail.com",
-              "url" => "https://github.com/aadityataparia"
-            }
-          },
-          "servers" => [
-            {
-              "url" => "http://localhost:{port}/{version}",
-              "description" => "Development server",
-              "variables" => {
-                "version" => {
-                  "default" => "v4"
-                },
-                "port" => {
-                  "default" => "3000"
-                }
-              }
-            },
-            {
-              "url" => "https://global-search-api-staging.ckpd.co/{version}",
-              "description" => "Staging server",
-              "variables" => {
-                "version" => {
-                  "default" => "v4"
-                }
-              }
-            }
-          ],
+          "info" => info,
+          "servers" => servers,
           "paths" => {},
           "components" => {
             "securitySchemes" => {
@@ -269,6 +238,31 @@ module RspecApiDocumentation
             "schemas" => {}
           }
         }
+      end
+
+      def info
+        RspecApiDocumentation.configuration.open_api&["host"] || {
+          "version" => "1.0.0",
+          "title" => "Open API",
+          "description" => "Open API",
+          "contact" => {
+            "name" => "OpenAPI"
+          }
+        }
+      end
+
+      def servers
+        RspecApiDocumentation.configuration.open_api&["server"] || [
+          {
+            "url" => "http://localhost:{port}",
+            "description" => "Development server",
+            "variables" => {
+              "port" => {
+                "default" => "3000"
+              }
+            }
+          }
+        ]
       end
     end
   end

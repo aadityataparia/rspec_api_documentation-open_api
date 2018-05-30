@@ -35,6 +35,33 @@ RspecApiDocumentation.configure do |config|
 end
 ```
 
+Change default host and servers spec using
+```
+RspecApiDocumentation.configure do |config| # These are defaults
+  config.open_api = {
+    "host": {
+      "version" => "1.0.0",
+      "title" => "Open API",
+      "description" => "Open API",
+      "contact" => {
+        "name" => "OpenAPI"
+      }
+    },
+    "servers": [
+      {
+        "url" => "http://localhost:{port}",
+        "description" => "Development server",
+        "variables" => {
+          "port" => {
+            "default" => "3000"
+          }
+        }
+      }
+    ]
+  }
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
