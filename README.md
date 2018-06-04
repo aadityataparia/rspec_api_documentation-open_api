@@ -1,7 +1,7 @@
 # RspecApiDocumentation::OpenApi
 
-Adds open_api_json and open_api_yaml output format to rspec_api_documentation.
-This gem is developed to be used at @cookpad to create openAPI spec using rspec_api_documentation gem.
+Adds `open_api_json` and `open_api_yaml` output format to `rspec_api_documentation`.
+This gem is developed to be used at [Cookpad](https://github.com/cookpad/) to create openAPI spec using [`rspec_api_documentation`](https://github.com/zipmark/rspec_api_documentation) gem.
 
 ## Installation
 
@@ -15,13 +15,13 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
+Or install it yourself by:
 
     $ gem install rspec_api_documentation-open_api
 
 ## Usage
 
-in *spec/spec_helper.rb* Put
+in *spec/spec_helper.rb* add
 ```rb
 RspecApiDocumentation.configure do |config|
   config.format = :open_api_json # for json file
@@ -34,7 +34,7 @@ RspecApiDocumentation.configure do |config|
 end
 ```
 
-Change default host and servers spec using
+You can change other default configuration using
 ```rb
 RspecApiDocumentation.configure do |config| # These are defaults
   config.open_api = {
