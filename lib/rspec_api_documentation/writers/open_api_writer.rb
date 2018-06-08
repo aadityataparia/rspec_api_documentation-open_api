@@ -243,7 +243,7 @@ module RspecApiDocumentation
       end
 
       def info
-        RspecApiDocumentation.configuration.open_api["info"] || {
+        RspecApiDocumentation.configuration.open_api["info"].deep_stringify_keys || {
           "version" => "1.0.0",
           "title" => "Open API",
           "description" => "Open API",
@@ -254,7 +254,7 @@ module RspecApiDocumentation
       end
 
       def servers
-        RspecApiDocumentation.configuration.open_api["servers"] || [
+        RspecApiDocumentation.configuration.open_api["servers"].deep_stringify_keys || [
           {
             "url" => "http://localhost:{port}",
             "description" => "Development server",
