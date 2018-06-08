@@ -79,16 +79,18 @@ module RspecApiDocumentation
           req["request_headers"]&.each do |name, value|
             if name == "Authorization"
               swagger["paths"][route][method]["security"] = if /Bearer (.*)/.match?(value)
-                                                              responses["401"] = {
-                                                                "description" => "Unauthorized Access",
-                                                                "content" => {
-                                                                  "application/json" => {
-                                                                    "schema" => {
-                                                                      "$ref" => "#/components/schemas/unauthorized"
+                                                              if !responses[401]
+                                                                responses[401] = {
+                                                                  "description" => "Unauthorized Access",
+                                                                  "content" => {
+                                                                    "application/json" => {
+                                                                      "schema" => {
+                                                                        "$ref" => "#/components/schemas/unauthorized"
+                                                                      }
                                                                     }
                                                                   }
                                                                 }
-                                                              }
+                                                              end
                                                               [{ "bearerAuth" => [] }]
                                                             else
                                                               [{ "basicAuth" => [] }]
