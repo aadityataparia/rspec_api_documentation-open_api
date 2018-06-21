@@ -116,7 +116,12 @@ module RspecApiDocumentation
             swagger["paths"][route][method]["parameters"].push(param) unless has
           end
           desc = swagger["paths"][route][method]["description"] || ""
-          swagger["paths"][route][method]["description"] = desc + "- #{description}, <strong>Needed Parameters:</strong>\n  - #{ params.map{ |p| p['name'] }.join("\n  - ") } \n"
+          swagger["paths"][route][method]["description"] = desc + "- #{description}"
+          if params.empty?
+            swagger["paths"][route][method]["description"] += "\n"
+          else
+            swagger["paths"][route][method]["description"] += ", <strong>Needed Parameters:</strong>\n  - #{params.map{ |p| p['name'] }.join("\n  - ")} \n"
+          end
           swagger["paths"][route][method]["responses"] = responses
         end
         swagger["components"]["schemas"] = types
@@ -243,18 +248,22 @@ module RspecApiDocumentation
       end
 
       def info
-        RspecApiDocumentation.configuration.open_api["info"].deep_stringify_keys || {
+        (RspecApiDocumentation.configuration.open_api[:info] ||
+        RspecApiDocumentation.configuration.open_api["info"] ||
+        {
           "version" => "1.0.0",
           "title" => "Open API",
           "description" => "Open API",
           "contact" => {
             "name" => "OpenAPI"
           }
-        }
+        }).deep_stringify_keys
       end
 
       def servers
-        RspecApiDocumentation.configuration.open_api["servers"].deep_stringify_keys || [
+        (RspecApiDocumentation.configuration.open_api[:servers] ||
+        RspecApiDocumentation.configuration.open_api["servers"] ||
+        [
           {
             "url" => "http://localhost:{port}",
             "description" => "Development server",
@@ -264,7 +273,7 @@ module RspecApiDocumentation
               }
             }
           }
-        ]
+        ]).deep_stringify_keys
       end
     end
   end
