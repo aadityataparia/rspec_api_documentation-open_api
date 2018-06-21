@@ -79,7 +79,7 @@ module RspecApiDocumentation
           req["request_headers"]&.each do |name, value|
             if name == "Authorization"
               swagger["paths"][route][method]["security"] = if /Bearer (.*)/.match?(value)
-                                                              if !responses[401]
+                                                              unless responses[401] && responses["401"]
                                                                 responses[401] = {
                                                                   "description" => "Unauthorized Access",
                                                                   "content" => {
