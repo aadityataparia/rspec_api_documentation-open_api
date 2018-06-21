@@ -260,26 +260,26 @@ module RspecApiDocumentation
       end
 
       def defined_configs
-        RspecApiDocumentation.configuration.open_api
+        configuration.open_api
       end
 
       def default_configs
         {
           info: {
-            "version" => "1.0.0",
-            "title" => "Open API",
-            "description" => "Open API",
-            "contact" => {
-              "name" => "OpenAPI"
+            version: "1.0.0",
+            title: "Open API",
+            description: "Open API",
+            contact: {
+              name: "OpenAPI"
             }
           },
           servers: [
             {
-              "url" => "http://localhost:{port}",
-              "description" => "Development server",
-              "variables" => {
-                "port" => {
-                  "default" => "3000"
+              url: "http://localhost:{port}",
+              description: "Development server",
+              variables: {
+                port: {
+                  default: "3000"
                 }
               }
             }
