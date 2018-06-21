@@ -248,32 +248,43 @@ module RspecApiDocumentation
       end
 
       def info
-        (RspecApiDocumentation.configuration.open_api[:info] ||
-        RspecApiDocumentation.configuration.open_api["info"] ||
-        {
-          "version" => "1.0.0",
-          "title" => "Open API",
-          "description" => "Open API",
-          "contact" => {
-            "name" => "OpenAPI"
-          }
-        }).deep_stringify_keys
+        configs["info"]
       end
 
       def servers
-        (RspecApiDocumentation.configuration.open_api[:servers] ||
-        RspecApiDocumentation.configuration.open_api["servers"] ||
-        [
-          {
-            "url" => "http://localhost:{port}",
-            "description" => "Development server",
-            "variables" => {
-              "port" => {
-                "default" => "3000"
+        configs["servers"]
+      end
+
+      def configs
+        (defined_configs || default_configs).deep_stringify_keys
+      end
+
+      def defined_configs
+        RspecApiDocumentation.configuration.open_api
+      end
+
+      def default_configs
+        {
+          info: {
+            "version" => "1.0.0",
+            "title" => "Open API",
+            "description" => "Open API",
+            "contact" => {
+              "name" => "OpenAPI"
+            }
+          },
+          servers: [
+            {
+              "url" => "http://localhost:{port}",
+              "description" => "Development server",
+              "variables" => {
+                "port" => {
+                  "default" => "3000"
+                }
               }
             }
-          }
-        ]).deep_stringify_keys
+          ]
+        }
       end
     end
   end
