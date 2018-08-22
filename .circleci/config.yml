@@ -1,0 +1,37 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/aadityataparia/rspec_api_documentation-open_api
+    parallelism: 3
+    docker:
+      - image: circleci/ruby:2.5.1-node-browsers
+        environment:
+          RACK_ENV: test
+          BUNDLE_JOBS: 4
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+    steps:
+      - restore_cache:
+          keys:
+            - open-api-v1-source-{{ .Branch }}-{{ .Revision }}
+            - open-api-v1-source-{{ .Branch }}-
+            - open-api-v1-source-
+      - checkout
+      - save_cache:
+          key: open-api-v1-source-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - ".git"
+      - restore_cache:
+          keys:
+            - open-api-v1-bundle-{{ checksum "Gemfile.lock" }}
+            - open-api-v1-bundle-
+      - run:
+          name: Setup
+          command: bin/setup
+      - save_cache:
+          key: open-api-v1-bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - run:
+          name: Test
+          command: bundle exec rake test
