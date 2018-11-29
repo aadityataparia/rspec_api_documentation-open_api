@@ -8,9 +8,10 @@ module RspecApiDocumentation
     class OpenApiWriter < Writer
       FILENAME = 'open_api'.freeze
       attr_writer :types, :swagger
+      delegate :docs_dir, :configurations_dir, to: :configuration
 
       def write
-        File.open(configuration.docs_dir.join("#{FILENAME}.json"), 'w') do |f|
+        File.open(docs_dir.join("#{FILENAME}.json"), 'w') do |f|
           f.write JSON.pretty_generate(as_json)
         end
       end
@@ -245,22 +246,24 @@ module RspecApiDocumentation
       end
 
       def info
-        configs['info']
+        config['info']
       end
 
       def servers
-        configs['servers']
+        config['servers']
       end
 
-      def configs
-        (defined_configs || default_configs).deep_stringify_keys
+      def config
+        (load_config || default_config).deep_stringify_keys
       end
 
-      def defined_configs
-        configuration.open_api
+      def load_config
+        return JSON.parse(File.read("#{configurations_dir}/open_api.json")) if File.exist?("#{configurations_dir}/open_api.json")
+
+        YAML.load_file("#{configurations_dir}/open_api.yml") if File.exist?("#{configurations_dir}/open_api.yml")
       end
 
-      def default_configs
+      def default_config
         {
           info: {
             version: '1.0.0',
