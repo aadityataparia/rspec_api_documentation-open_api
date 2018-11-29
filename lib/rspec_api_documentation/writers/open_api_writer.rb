@@ -6,19 +6,16 @@ require 'rspec_api_documentation/writers/json_writer'
 module RspecApiDocumentation
   module Writers
     class OpenApiWriter < Writer
+      FILENAME = 'open_api'.freeze
       attr_writer :types, :swagger
 
       def write
-        File.open(configuration.docs_dir.join('open_api.json'), 'w') do |f|
-          f.write JSON.pretty_generate(get_hash)
-        end
-
-        File.open(configuration.docs_dir.join('open_api.yaml'), 'w') do |f|
-          f.write get_hash.to_yaml
+        File.open(configuration.docs_dir.join("#{FILENAME}.json"), 'w') do |f|
+          f.write JSON.pretty_generate(as_json)
         end
       end
 
-      def get_hash
+      def as_json
         index.examples.each do |rspec_example|
           api = JSONExample.new(rspec_example, configuration).as_json.deep_stringify_keys
           description = api['description']

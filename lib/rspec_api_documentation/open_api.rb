@@ -1,5 +1,5 @@
-require "rspec_api_documentation"
-require "rspec_api_documentation/open_api/version"
+require 'rspec_api_documentation'
+require 'rspec_api_documentation/open_api/version'
 
 module RspecApiDocumentation
   module Writers
