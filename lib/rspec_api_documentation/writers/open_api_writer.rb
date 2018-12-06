@@ -12,6 +12,10 @@ module RspecApiDocumentation
 
       def write
         File.open(docs_dir.join("#{FILENAME}.json"), 'w') do |f|
+          f.write Formatter.to_json(OpenApi::Index.new(index, configuration, load_config))
+        end
+
+        File.open(docs_dir.join("#{FILENAME}_old.json"), 'w') do |f|
           f.write JSON.pretty_generate(as_json)
         end
       end
@@ -30,6 +34,8 @@ module RspecApiDocumentation
           result = JSON.parse(req['response_body']) if req['response_body']
           properties = {}
           result&.each { |k, v| properties[k] = get_properties(v) }
+
+          binding.pry
 
           responses[req['response_status']] = {
             'description' => req['response_status_text'],
